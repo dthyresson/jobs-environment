@@ -2,6 +2,8 @@
 
 Demonstrate that the environment is not correctly set in the job worker.
 
+See the issue: https://github.com/redwoodjs/redwood/issues/11569
+
 Knowing that the environment is correctly set the job will let a developer use different storage adapters per environment. For example, in the `development` environment, the job will use the `file` storage adapter, but in the `production` environment, the job will use the `s3` storage adapter.
 
 ## Steps to reproduce
