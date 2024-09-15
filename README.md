@@ -1,122 +1,74 @@
 # README
 
-Welcome to [RedwoodJS](https://redwoodjs.com)!
+Demonstrate that the environment is not correctly set in the job worker.
 
-> **Prerequisites**
->
-> - Redwood requires [Node.js](https://nodejs.org/en/) (=20.x) and [Yarn](https://yarnpkg.com/)
-> - Are you on Windows? For best results, follow our [Windows development setup](https://redwoodjs.com/docs/how-to/windows-development-setup) guide
+Knowing that the environment is correctly set the job will let a developer use different storage adapters per environment. For example, in the `development` environment, the job will use the `file` storage adapter, but in the `production` environment, the job will use the `s3` storage adapter.
 
-Start by installing dependencies:
+## Steps to reproduce
 
-```
-yarn install
-```
+1. Run `yarn dev`
+2. Start the jobs by running `yarn jobs work`
+2. Open the browser and navigate to `http://localhost:8910/graphql`
+3. Run the following query:
 
-Then start the development server:
-
-```
-yarn redwood dev
-```
-
-Your browser should automatically open to [http://localhost:8910](http://localhost:8910) where you'll see the Welcome Page, which links out to many great resources.
-
-> **The Redwood CLI**
->
-> Congratulations on running your first Redwood CLI command! From dev to deploy, the CLI is with you the whole way. And there's quite a few commands at your disposal:
->
-> ```
-> yarn redwood --help
-> ```
->
-> For all the details, see the [CLI reference](https://redwoodjs.com/docs/cli-commands).
-
-## Prisma and the database
-
-Redwood wouldn't be a full-stack framework without a database. It all starts with the schema. Open the [`schema.prisma`](api/db/schema.prisma) file in `api/db` and replace the `UserExample` model with the following `Post` model:
-
-```prisma
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  body      String
-  createdAt DateTime @default(now())
+```graphql
+query TestJobsEnvironment {
+  logEnvironment
 }
 ```
 
-Redwood uses [Prisma](https://www.prisma.io/), a next-gen Node.js and TypeScript ORM, to talk to the database. Prisma's schema offers a declarative way of defining your app's data models. And Prisma [Migrate](https://www.prisma.io/migrate) uses that schema to make database migrations hassle-free:
+Can see that the environment is correctly set in the service to `development` when `yarn rw dev` is running.
 
-```
-yarn rw prisma migrate dev
-
-# ...
-
-? Enter a name for the new migration: › create posts
-```
-
-> `rw` is short for `redwood`
-
-You'll be prompted for the name of your migration. `create posts` will do.
-
-Now let's generate everything we need to perform all the CRUD (Create, Retrieve, Update, Delete) actions on our `Post` model:
-
-```
-yarn redwood generate scaffold post
-```
-
-Navigate to [http://localhost:8910/posts/new](http://localhost:8910/posts/new), fill in the title and body, and click "Save".
-
-Did we just create a post in the database? Yup! With `yarn rw generate scaffold <model>`, Redwood created all the pages, components, and services necessary to perform all CRUD actions on our posts table.
-
-## Frontend first with Storybook
-
-Don't know what your data models look like? That's more than ok—Redwood integrates Storybook so that you can work on design without worrying about data. Mockup, build, and verify your React components, even in complete isolation from the backend:
-
-```
-yarn rw storybook
+```bash
+api | 11:51:33 🐛 Processing GraphQL Parameters
+api | 11:51:33 🐛 graphql-server GraphQL execution started: TestJobsEnvironment
+api | 11:51:33 🌲 The environment in the service
+api | 🗒 Custom
+api | {
+api |   "environment": "development"
+api | }
+api | 11:51:33 🌲 LogEnvironmentJob [RedwoodJob] Scheduling LogEnvironmentJob
+api | 🗒 Custom
+api | {
+api |   "path": "LogEnvironmentJob/LogEnvironmentJob",
+api |   "args": [],
+api |   "runAt": "2024-09-15T15:51:33.280Z",
+api |   "queue": "default",
+api |   "priority": 50
+api | }
+api | 11:51:33 🐛 graphql-server GraphQL execution completed: TestJobsEnvironment
+api | 11:51:33 🐛 Processing GraphQL Parameters done.
 ```
 
-Seeing "Couldn't find any stories"? That's because you need a `*.stories.{tsx,jsx}` file. The Redwood CLI makes getting one easy enough—try generating a [Cell](https://redwoodjs.com/docs/cells), Redwood's data-fetching abstraction:
+However, when the jobs are running, the environment is undefined.
 
-```
-yarn rw generate cell examplePosts
-```
-
-The Storybook server should hot reload and now you'll have four stories to work with. They'll probably look a little bland since there's no styling. See if the Redwood CLI's `setup ui` command has your favorite styling library:
-
-```
-yarn rw setup ui --help
-```
-
-## Testing with Jest
-
-It'd be hard to scale from side project to startup without a few tests. Redwood fully integrates Jest with both the front- and back-ends, and makes it easy to keep your whole app covered by generating test files with all your components and services:
-
-```
-yarn rw test
+```bash
+api | 11:52:03 🐛 Processing GraphQL Parameters
+11:51:32 🐛 [rw-jobs-worker.*.0] Checking for jobs in all (*) queues...
+11:51:32 🌲 [RedwoodJob] Started job 8 (LogEnvironmentJob/LogEnvironmentJob:LogEnvironmentJob)
+11:51:32 🌲 LogEnvironmentJob is performing...
+11:51:32 🌲 The environment in the service
+11:51:32 🚦  LogEnvironmentJob is undefined
+11:51:32 🌲 LogEnvironmentJob is done
+11:51:32 🐛 [RedwoodJob] Job 8 success
 ```
 
-To make the integration even more seamless, Redwood augments Jest with database [scenarios](https://redwoodjs.com/docs/testing#scenarios) and [GraphQL mocking](https://redwoodjs.com/docs/testing#mocking-graphql-calls).
+However, if you run the jobs with  NODE_ENV=development yarn rw jobs work` the environment is correctly set to `development`.
 
-## Ship it
-
-Redwood is designed for both serverless deploy targets like Netlify and Vercel and serverful deploy targets like Render and AWS:
-
+```bash
+11:53:51 🐛 [rw-jobs-worker.*.0] Checking for jobs in all (*) queues...
+11:53:51 🌲 [RedwoodJob] Started job 10 (LogEnvironmentJob/LogEnvironmentJob:LogEnvironmentJob)
+11:53:51 🌲 LogEnvironmentJob is performing...
+🗒 Custom
+{
+  "environment": "development"
+}
+11:53:51 🌲 LogEnvironmentJob is development
+11:53:51 🌲 LogEnvironmentJob is done
+11:53:51 🐛 [RedwoodJob] Job 10 success
+11:53:51 🐛 [rw-jobs-worker.*.0] Checking for jobs in all (*) queues...
 ```
-yarn rw setup deploy --help
-```
 
-Don't go live without auth! Lock down your app with Redwood's built-in, database-backed authentication system ([dbAuth](https://redwoodjs.com/docs/authentication#self-hosted-auth-installation-and-setup)), or integrate with nearly a dozen third-party auth providers:
-
-```
-yarn rw setup auth --help
-```
-
-## Next Steps
-
-The best way to learn Redwood is by going through the comprehensive [tutorial](https://redwoodjs.com/docs/tutorial/foreword) and joining the community (via the [Discourse forum](https://community.redwoodjs.com) or the [Discord server](https://discord.gg/redwoodjs)).
-
-## Quick Links
-
-- Stay updated: read [Forum announcements](https://community.redwoodjs.com/c/announcements/5), follow us on [Twitter](https://twitter.com/redwoodjs), and subscribe to the [newsletter](https://redwoodjs.com/newsletter)
-- [Learn how to contribute](https://redwoodjs.com/docs/contributing)
+> Note:
+>
+> There is checking in the jobs cli commands for the environment to add the logger formatter, but that must > have a different way of getting the environment.

@@ -4685,6 +4685,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@redwoodjs/jobs@npm:8.1.1":
+  version: 8.1.1
+  resolution: "@redwoodjs/jobs@npm:8.1.1"
+  dependencies:
+    "@redwoodjs/cli-helpers": "npm:8.1.1"
+    "@redwoodjs/project-config": "npm:8.1.1"
+    type-fest: "npm:4.26.1"
+  bin:
+    rw-jobs: ./dist/bins/rw-jobs.js
+    rw-jobs-worker: ./dist/bins/rw-jobs-worker.js
+  checksum: 10c0/00ee3c9b10371f3618ad6bbe0f244f9223c23504b68db04cfa05b1cb3bd2071d95f67388b78749ee9c8d1a52a2e2b7ccca6447a81d891b67ec83cd3222f13e5b
+  languageName: node
+  linkType: hard
+
 "@redwoodjs/prerender@npm:8.1.1":
   version: 8.1.1
   resolution: "@redwoodjs/prerender@npm:8.1.1"
@@ -6317,6 +6331,7 @@ __metadata:
   dependencies:
     "@redwoodjs/api": "npm:8.1.1"
     "@redwoodjs/graphql-server": "npm:8.1.1"
+    "@redwoodjs/jobs": "npm:8.1.1"
   languageName: unknown
   linkType: soft
 
@@ -16443,6 +16458,13 @@ __metadata:
   version: 4.0.8
   resolution: "type-detect@npm:4.0.8"
   checksum: 10c0/8fb9a51d3f365a7de84ab7f73b653534b61b622aa6800aecdb0f1095a4a646d3f5eb295322127b6573db7982afcd40ab492d038cf825a42093a58b1e1353e0bd
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:4.26.1":
+  version: 4.26.1
+  resolution: "type-fest@npm:4.26.1"
+  checksum: 10c0/d2719ff8d380befe8a3c61068f37f28d6fa2849fd140c5d2f0f143099e371da6856aad7c97e56b83329d45bfe504afe9fd936a7cff600cc0d46aa9ffb008d6c6
   languageName: node
   linkType: hard
 
