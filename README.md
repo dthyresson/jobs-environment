@@ -55,7 +55,7 @@ api | 11:52:03 🐛 Processing GraphQL Parameters
 11:51:32 🐛 [RedwoodJob] Job 8 success
 ```
 
-However, if you run the jobs with  NODE_ENV=development yarn rw jobs work` the environment is correctly set to `development`.
+However, if you run the jobs with `NODE_ENV=development yarn rw jobs work` the environment is correctly set to `development`.
 
 ```bash
 11:53:51 🐛 [rw-jobs-worker.*.0] Checking for jobs in all (*) queues...
