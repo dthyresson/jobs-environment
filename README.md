@@ -24,7 +24,7 @@ Can see that the environment is correctly set in the service to `development` wh
 ```bash
 api | 11:51:33 🐛 Processing GraphQL Parameters
 api | 11:51:33 🐛 graphql-server GraphQL execution started: TestJobsEnvironment
-api | 11:51:33 🌲 The environment in the service
+api | 11:51:33 🌲 The environment in the job
 api | 🗒 Custom
 api | {
 api |   "environment": "development"
@@ -50,7 +50,7 @@ api | 11:52:03 🐛 Processing GraphQL Parameters
 11:51:32 🌲 [RedwoodJob] Started job 8 (LogEnvironmentJob/LogEnvironmentJob:LogEnvironmentJob)
 11:51:32 🌲 LogEnvironmentJob is performing...
 11:51:32 🌲 The environment in the service
-11:51:32 🚦  LogEnvironmentJob is undefined
+11:51:32 🚦  LogEnvironmentJob is undefined in job
 11:51:32 🌲 LogEnvironmentJob is done
 11:51:32 🐛 [RedwoodJob] Job 8 success
 ```
@@ -65,7 +65,7 @@ However, if you run the jobs with `NODE_ENV=development yarn rw jobs work` the e
 {
   "environment": "development"
 }
-11:53:51 🌲 LogEnvironmentJob is development
+11:53:51 🌲 LogEnvironmentJob is development in job
 11:53:51 🌲 LogEnvironmentJob is done
 11:53:51 🐛 [RedwoodJob] Job 10 success
 11:53:51 🐛 [rw-jobs-worker.*.0] Checking for jobs in all (*) queues...
